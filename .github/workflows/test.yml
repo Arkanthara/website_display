@@ -5,7 +5,7 @@ name: test-project
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   build:
