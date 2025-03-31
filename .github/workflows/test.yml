@@ -8,14 +8,12 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    default:
+      run:
+        working-directory: ./frontend
     steps:
-      - name: get all directories
-        run: |
-          ls .
-          ls ..
-          pwd .
-          pwd ..
-
+      - name: Checkout repository to get access to the code
+        uses: actions/checkout@v4
       - name: build dependencies
         run: npm install
       - name: test
