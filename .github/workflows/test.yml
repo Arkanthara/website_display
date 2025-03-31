@@ -10,8 +10,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: build dependencies
-        run: npm install ./frontend
+        run: |
+          cd frontend
+          npm install
       - name: test
-        run: npm test ./frontend
+        run: |
+          cd frontend
+          npm test
       - name: sonarqube
-        run: npm test ./frontend
+        run: |
+          cd frontend
+          npm test ./frontend
