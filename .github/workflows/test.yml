@@ -1,0 +1,19 @@
+version: 1.0.0
+
+name: test-project
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: node-alpine@latest
+    steps:
+      - name: build dependencies
+        run: npm build
+      - name: test
+        run: npm test
+      - name: sonarqube
+        run: npm test
