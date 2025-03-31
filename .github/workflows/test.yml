@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    runs-on: node-alpine@latest
+    runs-on: ubuntu-latest
     steps:
       - name: build dependencies
         run: npm build
