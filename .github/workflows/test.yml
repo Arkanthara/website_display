@@ -13,7 +13,8 @@ jobs:
         run: |
           ls .
           ls ..
-          ls ../..
+          pwd .
+          pwd ..
 
       - name: build dependencies
         run: npm install
