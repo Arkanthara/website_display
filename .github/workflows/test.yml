@@ -8,13 +8,13 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./frontend
     steps:
       - name: build dependencies
-        working-directory: ./frontend
         run: npm install
       - name: test
-        working-directory: ./frontend
         run: npm test
       - name: sonarqube
-        working-directory: ./frontend
         run: npm test ./frontend
