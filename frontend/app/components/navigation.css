@@ -1,0 +1,24 @@
+@import "tailwindcss";
+
+/* Navbar Styles */
+.navbar {
+  background-color: #363a4f; /* Base */
+}
+
+.navbar ul {
+  display: flex;
+  justify-content: start;
+  font-size: 150%;
+  gap: 1.5rem;
+  padding: 1rem;
+}
+
+.navbar ul a.active {
+  color: #c6a0f6;
+  font-weight: bold;
+}
+
+.navbar ul a.pending {
+  color: #a6da95;
+  animate: pulse 1s infinite;
+}
