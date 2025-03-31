@@ -13,7 +13,7 @@ jobs:
         run: |
           ls .
           ls ..
-          ls ...
+          ls ../..
 
       - name: build dependencies
         run: npm install
