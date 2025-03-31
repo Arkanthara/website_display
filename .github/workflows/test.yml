@@ -11,6 +11,8 @@ jobs:
     steps:
       - name: build dependencies
         run: |
+          ls -l 
+          pwd
           cd frontend
           npm install
       - name: test
