@@ -10,11 +10,11 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./frontend
+        working-directory: ../frontend
     steps:
       - name: build dependencies
         run: npm install
       - name: test
         run: npm test
       - name: sonarqube
-        run: npm test ./frontend
+        run: npm test
