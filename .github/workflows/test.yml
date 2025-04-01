@@ -14,8 +14,6 @@ jobs:
     steps:
       - name: Checkout repository to get access to the code
         uses: actions/checkout@v4
-      - name: build dependencies
-        run: npm install
       - name: Prepare cache for npm dependencies
         uses: actions/cache@v4
         id: cache-npm
@@ -30,6 +28,8 @@ jobs:
         name: List state of dependencies
         continue-on-error: true
         run: npm list
+      - name: build dependencies
+        run: npm clean-install
 
   sonarcloud:
     name: SonarCloud
@@ -52,6 +52,8 @@ jobs:
             ${{ runner.os }}-node_modules-${{ hashFiles('**/package-lock.json') }}
             ${{ runner.os }}-node_modules-
             ${{ runner.os }}-
+      - name: build dependencies
+        run: npm clean-install
       - name: Lcov with vitest
         run: npm run coverage
       - name: SonarCloud scan
