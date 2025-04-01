@@ -29,6 +29,7 @@ jobs:
         with:
           fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
       - name: Lcov with vitest
+        needs: build
         run: npm run coverage
       - name: SonarCloud scan
         uses: SonarSource/sonarqube-scan-action@v5
