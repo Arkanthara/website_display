@@ -39,8 +39,6 @@ jobs:
         with:
           cache: "npm"
           cache-dependency-path: "**/package-lock.json"
-      - name: build dependencies
-        run: npm clean-install
       - name: Lcov with vitest
         run: npm run coverage
       - name: SonarCloud scan
