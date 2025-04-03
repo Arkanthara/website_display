@@ -3,14 +3,12 @@ name: test-project
 on:
   push:
     branches:
-      - master
+      - frontend
 
 jobs:
   build:
     runs-on: ubuntu-latest
     defaults:
-      run:
-        working-directory: ./frontend
     steps:
       - name: Checkout repository to get access to the code
         uses: actions/checkout@v4
@@ -27,8 +25,6 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     defaults:
-      run:
-        working-directory: ./frontend
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -45,7 +41,5 @@ jobs:
         run: npm run coverage
       - name: SonarCloud scan
         uses: SonarSource/sonarqube-scan-action@v5
-        with:
-          projectBaseDir: frontend
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
