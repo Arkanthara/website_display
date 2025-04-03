@@ -22,18 +22,18 @@
   "devDependencies": {
     "@react-router/dev": "latest",
     "@tailwindcss/vite": "latest",
-    "@testing-library/jest-dom": "^6.6.3",
-    "@testing-library/react": "^16.2.0",
+    "@testing-library/jest-dom": "latest",
+    "@testing-library/react": "latest",
     "@types/node": "latest",
     "@types/react": "latest",
     "@types/react-dom": "latest",
-    "@vitest/coverage-v8": "^3.1.1",
-    "jsdom": "^26.0.0",
+    "@vitest/coverage-v8": "latest",
+    "jsdom": "latest",
     "react-router-devtools": "latest",
     "tailwindcss": "latest",
     "typescript": "latest",
     "vite": "latest",
     "vite-tsconfig-paths": "latest",
-    "vitest": "^3.1.1"
+    "vitest": "latest"
   }
 }

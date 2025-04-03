@@ -5,6 +5,7 @@ import { createRoutesStub, useRouteError } from "react-router";
 import App from "../root";
 import { ErrorBoundary } from "../root";
 import { isRouteErrorResponse } from "react-router";
+import { links } from "../root";
 
 const Stub = createRoutesStub([
   {
@@ -87,4 +88,29 @@ describe("Test ErrorBoundary", () => {
   });
   vi.unstubAllEnvs();
   vi.resetModules();
+});
+
+describe("links function", () => {
+  test("should return the correct links array", () => {
+    const result = links();
+
+    // Test if the result is an array
+    expect(Array.isArray(result)).toBe(true);
+
+    // Test if the array contains the expected objects
+    expect(result).toHaveLength(2); // We expect 2 elements in the array
+
+    // Test the first link object
+    expect(result[0]).toEqual({
+      rel: "preconnect",
+      href: "https://fonts.googleapis.com",
+    });
+
+    // Test the second link object
+    expect(result[1]).toEqual({
+      rel: "preconnect",
+      href: "https://fonts.gstatic.com",
+      crossOrigin: "anonymous",
+    });
+  });
 });
