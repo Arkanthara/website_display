@@ -1,0 +1,13 @@
+name: test-project
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  hello:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Gnyark groarf gnock
+        run: echo "Streuleurrleurhh !"
