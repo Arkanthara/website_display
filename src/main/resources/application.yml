@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: backend
+  datasource:
+    url: jdbc:postgresql://localhost:5356/testdb
+    name: ems
+    password: welcome-2-ems
