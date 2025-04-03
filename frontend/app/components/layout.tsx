@@ -1,7 +1,4 @@
-import { Outlet, ScrollRestoration } from "react-router";
-import { Scripts } from "react-router";
-import { Links } from "react-router";
-import { Meta } from "react-router";
+import { Outlet, ScrollRestoration, Scripts, Links, Meta } from "react-router";
 import Navigation from "./navigation";
 
 export default function Layout() {

@@ -1,16 +1,7 @@
-import {
-  isRouteErrorResponse,
-  useRouteError,
-  Links,
-  Meta,
-  Outlet,
-  Scripts,
-  ScrollRestoration,
-} from "react-router";
+import { isRouteErrorResponse, useRouteError, Outlet } from "react-router";
 
 import type { Route } from "./+types/root";
 import "./app.css";
-import Navigation from "./components/navigation";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -22,11 +13,7 @@ export const links: Route.LinksFunction = () => [
 ];
 
 export default function App() {
-  return (
-    <>
-      <Outlet />
-    </>
-  );
+  return <Outlet />;
 }
 
 export function ErrorBoundary() {

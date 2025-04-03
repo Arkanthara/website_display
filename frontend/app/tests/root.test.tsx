@@ -1,11 +1,12 @@
 import { describe, test, expect, vi } from "vitest";
 import { render, screen, cleanup } from "@testing-library/react";
 import "@testing-library/jest-dom/vitest";
-import { createRoutesStub, useRouteError } from "react-router";
-import App from "../root";
-import { ErrorBoundary } from "../root";
-import { isRouteErrorResponse } from "react-router";
-import { links } from "../root";
+import {
+  createRoutesStub,
+  useRouteError,
+  isRouteErrorResponse,
+} from "react-router";
+import App, { ErrorBoundary, links } from "../root";
 
 const Stub = createRoutesStub([
   {
@@ -20,11 +21,6 @@ describe("Test Root Component", () => {
     expect(screen.queryByTestId("outlet")).toBeNull();
   });
 });
-
-// vi.mock("react-router", () => ({
-//   useRouteError: vi.fn(),
-//   createRoutesStub: {path, factory} => {path, factory},
-// }));
 
 vi.mock(import("react-router"), async (importOriginal) => {
   const actual = await importOriginal();

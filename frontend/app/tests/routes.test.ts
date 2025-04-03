@@ -49,21 +49,3 @@ describe("Routes test with mocks", () => {
     expect(test_type).toBeDefined();
   });
 });
-
-// describe("Routes test", () => {
-//   const config = routeconfig[0];
-//   const [home, power, state] = config.children;
-//   test("Should have correct route number", () => {
-//     expect(config).toBeInstanceOf(Array);
-//     expect(config.children).toHaveLength(3);
-//   });
-//   test("Index route exist", () => {
-//     expect(home).toEqual(index("./routes/home.tsx"));
-//     expect(power).toEqual(route("/power", "./routes/power.tsx"));
-//     expect(state).toEqual(route("/state", "./routes/state.tsx"));
-//   });
-//   test("Our route config satisfy RouteConfig type", () => {
-//     const test_type: RouteConfig = routeconfig;
-//     expect(test_type).toBeDefined();
-//   });
-// });
