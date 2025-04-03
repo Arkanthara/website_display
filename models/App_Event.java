@@ -1,0 +1,28 @@
+public class App_Event {
+    public Long id ;
+    public String serial_number ;
+    public Date time ;
+    public Integer pressurization ;
+    public Integer pairing_start ;
+    public Integer pairing_complete ;
+    public Integer cleaning_start ;
+    public Integer cleaning_pause ;
+    public Integer cleaning_finalized ;
+    public Integer pedal_pz_p1 ;
+    public Integer boost_pz_p1 ;
+    public Integer pedal_pz_p2 ;
+    public Integer boost_pz_p2 ;
+    public Integer pedal_pz_p3 ;
+    public Integer boost_pz_p3 ;
+    public Integer pedal_af_p1 ;
+    public Integer boost_af_p1 ;
+    public Integer pedal_af_p2 ;
+    public Integer boost_af_p2 ;
+    public Integer pedal_af_p3 ;
+    public Integer boost_af_p3 ;
+    public Integer pedal_afwo_p1 ;
+    public Integer pedal_afwo_p2 ;
+    public Integer pedal_afwo_p3 ;
+    public Integer on_start ;
+    public Integer on_after_7h ;
+}

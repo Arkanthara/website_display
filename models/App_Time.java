@@ -1,0 +1,22 @@
+public class App_Time {
+    public Long id ;
+    public String serial_number ;
+    public Date time ;
+    public Integer pressurized ;
+    public Integer run_pz_p1 ;
+    public Integer boost_pz_p1 ;
+    public Integer run_pz_p2 ;
+    public Integer boost_pz_p2 ;
+    public Integer run_pz_p3 ;
+    public Integer boost_pz_p3 ;
+    public Integer run_af_water_only_p1 ;
+    public Integer run_af_water_only_p2 ;
+    public Integer run_af_water_only_p3 ;
+    public Integer run_af_p1 ;
+    public Integer run_af_p2 ;
+    public Integer run_af_p3 ;
+    public Integer boost_af_p1 ;
+    public Integer boost_af_p2 ;
+    public Integer boost_af_p3 ;
+    public Integer clean_pause ;
+}

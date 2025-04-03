@@ -1,0 +1,22 @@
+public class Adc_Errors {
+    public Long id ;
+    public String serial_number ;
+    public Date time ;
+    public Integer sampling_error ;
+    public Integer full_f_e_pressure ;
+    public Integer full_f_e_temp_in ;
+    public Integer full_f_e_temp_out ;
+    public Integer full_f_e_umain ;
+    public Integer filter_e_pressure ;
+    public Integer filter_e_temp_in ;
+    public Integer filter_e_temp_out ;
+    public Integer filter_e_umain ;
+    public Integer sample_e_pressure ;
+    public Integer sample_e_temp_in ;
+    public Integer sample_e_temp_out ;
+    public Integer sample_e_umain ;
+    public Integer no_sam_e_pressure ;
+    public Integer no_sam_e_temp_in ;
+    public Integer no_sam_e_temp_out ;
+    public Integer no_sam_e_umain ;
+}
