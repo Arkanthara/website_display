@@ -1,7 +1,17 @@
 spring:
+  config:
+    import: optional:file:.env[.properties]
   application:
     name: backend
   datasource:
-    url: jdbc:postgresql://localhost:5356/testdb
-    name: ems
-    password: welcome-2-ems
+    url: ${DB_HOST}
+    name: ${DB_NAME}
+    username: ${DB_USER}
+    password: ${DB_PWD}
+    port: ${DB_PORT}
+    driverClassName: ${DB_DRIVER}
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.SQLServerDialect
