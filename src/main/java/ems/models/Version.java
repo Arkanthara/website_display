@@ -1,53 +1,84 @@
 package ems.models;
 
 import jakarta.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
-@Table( name = "database_version" )
+@Table(name = "Version", uniqueConstraints = @UniqueConstraint(name = "uniqueVersion", columnNames = { "time", "serialNumber" }))
 public class Version {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	private String serial_number;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Column(name = "Serial Number")
+    private String serialNumber;
+    @Column(name = "Time")
+    private LocalDateTime time;
+    @Column(name = "version MAIN")
+    private String versionMain;
+    @Column(name = "version US")
+    private String versionUs;
+    @Column(name = "version AF")
+    private String versionAf;
+    @Column(name = "version PZ")
+    private String versionPz;
+    @Column(name = "version ESP32")
+    private String versionEsp32;
 
-	@Temporal(TemporalType.DATE)
-	private Date time;
-	private String version_main;
-	private String version_us;
-	private String version_af;
-	private String version_pz;
-	private String version_esp32;
+    // Getters and Setters
+    public String getSerialnumber() {
+        return serialNumber;
+    }
 
-	public Long getId() { 
-		return this.id;
-	}
+    public void setSerialnumber(String serialNumber) {
+        this.serialNumber = serialNumber;
+    }
 
-	public String getSerial_number() { 
-		return this.serial_number;
-	}
+    public LocalDateTime getTime() {
+        return time;
+    }
 
-	public Date getTime() { 
-		return this.time;
-	}
+    public void setTime(LocalDateTime time) {
+        this.time = time;
+    }
 
-	public String getVersion_main() { 
-		return this.version_main;
-	}
+    public String getVersionmain() {
+        return versionMain;
+    }
 
-	public String getVersion_us() { 
-		return this.version_us;
-	}
+    public void setVersionmain(String versionMain) {
+        this.versionMain = versionMain;
+    }
 
-	public String getVersion_af() { 
-		return this.version_af;
-	}
+    public String getVersionus() {
+        return versionUs;
+    }
 
-	public String getVersion_pz() { 
-		return this.version_pz;
-	}
+    public void setVersionus(String versionUs) {
+        this.versionUs = versionUs;
+    }
 
-	public String getVersion_esp32() { 
-		return this.version_esp32;
-	}
+    public String getVersionaf() {
+        return versionAf;
+    }
+
+    public void setVersionaf(String versionAf) {
+        this.versionAf = versionAf;
+    }
+
+    public String getVersionpz() {
+        return versionPz;
+    }
+
+    public void setVersionpz(String versionPz) {
+        this.versionPz = versionPz;
+    }
+
+    public String getVersionesp32() {
+        return versionEsp32;
+    }
+
+    public void setVersionesp32(String versionEsp32) {
+        this.versionEsp32 = versionEsp32;
+    }
+
 }

@@ -1,43 +1,64 @@
 package ems.models;
 
 import jakarta.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
-@Table( name = "database_power" )
+@Table(name = "Power", uniqueConstraints = @UniqueConstraint(name = "uniquePower", columnNames = { "time", "serialNumber" }))
 public class Power {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	private String serial_number;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Column(name = "Serial Number")
+    private String serialNumber;
+    @Column(name = "Time")
+    private LocalDateTime time;
+    @Column(name = "Time Power On (s)")
+    private Integer timePowerOnS;
+    @Column(name = "Time On (s)")
+    private Integer timeOnS;
+    @Column(name = "Power On Counter")
+    private Integer powerOnCounter;
 
-	@Temporal(TemporalType.DATE)
-	private Date time;
-	private Integer time_power_on_s;
-	private Integer time_on_s;
-	private Integer power_on_counter;
+    // Getters and Setters
+    public String getSerialnumber() {
+        return serialNumber;
+    }
 
-	public Long getId() { 
-		return this.id;
-	}
+    public void setSerialnumber(String serialNumber) {
+        this.serialNumber = serialNumber;
+    }
 
-	public String getSerial_number() { 
-		return this.serial_number;
-	}
+    public LocalDateTime getTime() {
+        return time;
+    }
 
-	public Date getTime() { 
-		return this.time;
-	}
+    public void setTime(LocalDateTime time) {
+        this.time = time;
+    }
 
-	public Integer getTime_power_on_s() { 
-		return this.time_power_on_s;
-	}
+    public Integer getTimepowerons() {
+        return timePowerOnS;
+    }
 
-	public Integer getTime_on_s() { 
-		return this.time_on_s;
-	}
+    public void setTimepowerons(Integer timePowerOnS) {
+        this.timePowerOnS = timePowerOnS;
+    }
 
-	public Integer getPower_on_counter() { 
-		return this.power_on_counter;
-	}
+    public Integer getTimeons() {
+        return timeOnS;
+    }
+
+    public void setTimeons(Integer timeOnS) {
+        this.timeOnS = timeOnS;
+    }
+
+    public Integer getPoweroncounter() {
+        return powerOnCounter;
+    }
+
+    public void setPoweroncounter(Integer powerOnCounter) {
+        this.powerOnCounter = powerOnCounter;
+    }
+
 }

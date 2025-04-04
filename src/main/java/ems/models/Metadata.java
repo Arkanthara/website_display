@@ -1,48 +1,64 @@
 package ems.models;
 
 import jakarta.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
-@Table( name = "database_metadata" )
+@Table(name = "Metadata", uniqueConstraints = @UniqueConstraint(name = "uniqueMetadata", columnNames = { "time", "serialNumber" }))
 public class Metadata {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	private String serial_number;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Column(name = "Serial Number")
+    private String serialNumber;
+    @Column(name = "Time")
+    private LocalDateTime time;
+    @Column(name = "Data")
+    private String data;
+    @Column(name = "Pairing Status")
+    private Boolean pairingStatus;
+    @Column(name = "Stats Mapping Version")
+    private String statsMappingVersion;
 
-	@Temporal(TemporalType.DATE)
-	private Date time;
-	private String data;
-	private boolean pairing_status;
-	private Integer time_since_last_maintenance_s;
-	private Integer stats_mapping_version;
+    // Getters and Setters
+    public String getSerialnumber() {
+        return serialNumber;
+    }
 
-	public Long getId() { 
-		return this.id;
-	}
+    public void setSerialnumber(String serialNumber) {
+        this.serialNumber = serialNumber;
+    }
 
-	public String getSerial_number() { 
-		return this.serial_number;
-	}
+    public LocalDateTime getTime() {
+        return time;
+    }
 
-	public Date getTime() { 
-		return this.time;
-	}
+    public void setTime(LocalDateTime time) {
+        this.time = time;
+    }
 
-	public String getData() { 
-		return this.data;
-	}
+    public String getData() {
+        return data;
+    }
 
-	public boolean getPairing_status() { 
-		return this.pairing_status;
-	}
+    public void setData(String data) {
+        this.data = data;
+    }
 
-	public Integer getTime_since_last_maintenance_s() { 
-		return this.time_since_last_maintenance_s;
-	}
+    public Boolean getPairingstatus() {
+        return pairingStatus;
+    }
 
-	public Integer getStats_mapping_version() { 
-		return this.stats_mapping_version;
-	}
+    public void setPairingstatus(Boolean pairingStatus) {
+        this.pairingStatus = pairingStatus;
+    }
+
+    public String getStatsmappingversion() {
+        return statsMappingVersion;
+    }
+
+    public void setStatsmappingversion(String statsMappingVersion) {
+        this.statsMappingVersion = statsMappingVersion;
+    }
+
 }
