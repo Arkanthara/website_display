@@ -240,7 +240,7 @@ public class WebConfig {{
             @Override
             public void addCorsMappings(CorsRegistry registry) {{
                 registry.addMapping("/**")
-                        .allowedOrigins("http://10.10.213.69:3000/")
+                        .allowedOrigins("http://localhost:3000/")
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
                         .allowCredentials(true);
@@ -275,7 +275,7 @@ spring:
   application:
     name: backend
   datasource:
-    url: jdbc:postgresql://localhost:5534/mydb
+    url: jdbc:postgresql://localhost:5356/mydb
     username: myuser
     password: mypassword
     driverClassName: org.postgresql.Driver
@@ -321,7 +321,6 @@ dependencies {{
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
-	runtimeOnly("com.microsoft.sqlserver:mssql-jdbc")
 	runtimeOnly("org.postgresql:postgresql")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
