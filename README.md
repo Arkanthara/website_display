@@ -170,105 +170,82 @@ You can setup a github action like this:
 
 ```{yaml}
 
-name: test-project
-
+name: SonarQube
 on:
   push:
     branches:
-      - frontend
-
+      - backend
+  pull_request:
+    types: [opened, synchronize, reopened]
 jobs:
   build:
+    name: Build and analyze
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository to get access to the code
-        uses: actions/checkout@v4
-      - name: cache npm dependencies
-        uses: actions/setup-node@v4
-        with:
-          cache: "npm"
-          cache-dependency-path: "**/package-lock.json"
-      - name: build dependencies
-        run: npm clean-install
-  test:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-      - name: cache npm dependencies
-        uses: actions/setup-node@v4
-        with:
-          cache: "npm"
-          cache-dependency-path: "**/package-lock.json"
-      - name: build dependencies
-        run: |
-          npm ci
-      - name: cache coverage report
-        uses: actions/cache@v4
-        with:
-          path: ./coverage/lcov.info
-          key: ${{ runner.os }}-coverage-${{ hashFiles('**/lcov.info') }}
-          restore-keys: |
-            ${{ runner.os }}-coverage-${{ hashFiles('**/lcov.info') }}
-            ${{ runner.os }}-coverage-
-            ${{ runner.os }}-
-      - name: run tests and coverage
-        run: |
-          npm run coverage
-
-  sonarcloud:
-    name: SonarCloud
-    needs: test
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
-      - name: cache coverage report
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: 21
+          distribution: temurin # Alternative distribution options are available
+          cache: gradle
+      - name: Check dependencies
+        run: gradle --write-verification-metadata sha256 help --refresh-keys
+      - name: Build
+        run: gradle build
+  sonar:
+    name: SonarCloud analysis
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: 21
+          distribution: temurin # Alternative distribution options are available
+          cache: gradle
+      - name: Cache SonarQube packages
         uses: actions/cache@v4
         with:
-          path: coverage/lcov.info
-          key: ${{ runner.os }}-coverage-${{ hashFiles('**/lcov.info') }}
-          restore-keys: |
-            ${{ runner.os }}-coverage-${{ hashFiles('**/lcov.info') }}
-            ${{ runner.os }}-coverage-
-            ${{ runner.os }}-
-      - name: SonarCloud scan
-        uses: SonarSource/sonarqube-scan-action@v5
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+      - name: Analyze
         env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_BACKEND }}
+        run: gradle jacocoTestReport sonar --info
   publish:
-    name: publish to github container
-    needs: sonarcloud
+    name: Publish backend
+    needs: sonar
     runs-on: ubuntu-latest
     permissions:
       packages: write
     steps:
-      - name: create image name
-        run: echo "IMAGE_NAME=ghcr.io/${GITHUB_REPOSITORY,,}:${{ github.ref_name }}" > $GITHUB_ENV
       - uses: actions/checkout@v4
-      - uses: docker/setup-buildx-action@v3
-      - name: Docker login
-        uses: docker/login-action@v3
+      - name: setup java JDK
+        uses: actions/setup-java@v4
         with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ github.token }}
-      - name: publish docker image
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          push: true
-          tags: ${{ env.IMAGE_NAME }}
+          java-version: 21
+          distribution: temurin # Alternative distribution options are available
+          cache: gradle
+      - name: publish image
+        run: |
+          gradle jib \
+          -Djib.to.image="ghcr.io/$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]'):${{ github.ref_name }}" \
+          -Djib.to.auth.username=${{ github.actor }} \
+          -Djib.to.auth.password=${{ github.token }} \
 ```
 
 <a name="b-examples"></a>
 
 ### Examples
 
-An example project is stored inside `phonyBackend` folder with the structure described in [Backend](#backend).
+An example project is stored inside `backend` branch with the structure described in [Backend](#backend).
 
 ## Frontend
 
@@ -367,81 +344,104 @@ sonar.branch.name=mybranchname
 You can setup a github action like this:
 
 ```{yaml}
-name: SonarQube
+name: test-project
+
 on:
   push:
     branches:
-      - backend
-  pull_request:
-    types: [opened, synchronize, reopened]
+      - frontend
+
 jobs:
   build:
-    name: Build and analyze
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository to get access to the code
+        uses: actions/checkout@v4
+      - name: cache npm dependencies
+        uses: actions/setup-node@v4
         with:
-          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
-      - name: Set up JDK 21
-        uses: actions/setup-java@v4
-        with:
-          java-version: 21
-          distribution: temurin # Alternative distribution options are available
-          cache: gradle
-      - name: Check dependencies
-        run: ./gradlew --write-verification-metadata sha256 help --refresh-keys
-      - name: Build
-        run: ./gradlew build
-  sonar:
-    name: SonarCloud analysis
+          cache: "npm"
+          cache-dependency-path: "**/package-lock.json"
+      - name: build dependencies
+        run: npm clean-install
+  test:
+    runs-on: ubuntu-latest
     needs: build
-    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: cache npm dependencies
+        uses: actions/setup-node@v4
         with:
-          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
-      - name: Set up JDK 21
-        uses: actions/setup-java@v4
-        with:
-          java-version: 21
-          distribution: temurin # Alternative distribution options are available
-          cache: gradle
-      - name: Cache SonarQube packages
+          cache: "npm"
+          cache-dependency-path: "**/package-lock.json"
+      - name: build dependencies
+        run: |
+          npm ci
+      - name: cache coverage report
         uses: actions/cache@v4
         with:
-          path: ~/.sonar/cache
-          key: ${{ runner.os }}-sonar
-          restore-keys: ${{ runner.os }}-sonar
-      - name: Analyze
+          path: ./coverage/lcov.info
+          key: ${{ runner.os }}-coverage-${{ hashFiles('**/lcov.info') }}
+          restore-keys: |
+            ${{ runner.os }}-coverage-${{ hashFiles('**/lcov.info') }}
+            ${{ runner.os }}-coverage-
+            ${{ runner.os }}-
+      - name: run tests and coverage
+        run: |
+          npm run coverage
+
+  sonarcloud:
+    name: SonarCloud
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
+      - name: cache coverage report
+        uses: actions/cache@v4
+        with:
+          path: ./coverage/lcov.info
+          key: ${{ runner.os }}-coverage-${{ hashFiles('**/lcov.info') }}
+          restore-keys: |
+            ${{ runner.os }}-coverage-${{ hashFiles('**/lcov.info') }}
+            ${{ runner.os }}-coverage-
+            ${{ runner.os }}-
+      - name: SonarCloud scan
+        uses: SonarSource/sonarqube-scan-action@v5
         env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_BACKEND }}
-        run: ./gradlew jacocoTestReport sonar --info
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_FRONTEND }}
   publish:
-    name: Publish backend
-    needs: sonar
+    name: publish to github container
+    needs: sonarcloud
     runs-on: ubuntu-latest
     permissions:
       packages: write
     steps:
+      - name: create image name
+        run: echo "IMAGE_NAME=ghcr.io/${GITHUB_REPOSITORY,,}:${{ github.ref_name }}" > $GITHUB_ENV
       - uses: actions/checkout@v4
-      - name: setup java JDK
-        uses: actions/setup-java@v4
+      - uses: docker/setup-buildx-action@v3
+      - name: Docker login
+        uses: docker/login-action@v3
         with:
-          java-version: 21
-          distribution: temurin # Alternative distribution options are available
-          cache: gradle
-      - name: publish image
-        run: |
-          ./gradlew jib \
-          -Djib.to.image="ghcr.io/$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]'):${{ github.ref_name }}" \
-          -Djib.to.auth.username=${{ github.actor }} \
-          -Djib.to.auth.password=${{ github.token }} \
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
+      - name: publish docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: ${{ env.IMAGE_NAME }}
 ```
 
 <a name="f-examples"></a>
 
 ### Examples
 
-You can see examples of generated file in the folder `phonyFrontend`.
+You can see examples of generated file in the branch `frontend`.
 
 The file structure is the same than [Frontend](#frontend).
