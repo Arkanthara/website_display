@@ -57,7 +57,7 @@ jobs:
       - name: cache coverage report
         uses: actions/cache@v4
         with:
-          path: coverage/lcov.info
+          path: ./coverage/lcov.info
           key: ${{ runner.os }}-coverage-${{ hashFiles('**/lcov.info') }}
           restore-keys: |
             ${{ runner.os }}-coverage-${{ hashFiles('**/lcov.info') }}
