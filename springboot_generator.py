@@ -275,16 +275,16 @@ spring:
   application:
     name: backend
   datasource:
-    url: ${DB_HOST};databaseName=${DB_NAME}
-    username: ${DB_USER}
-    password: ${DB_PWD}
-    driverClassName: ${DB_DRIVER}
+    url: jdbc:postgresql://localhost:5534/mydb
+    username: myuser
+    password: mypassword
+    driverClassName: org.postgresql.Driver
   jpa:
     show-sql: true
     properties:
       hibernate:
         format_sql: true
-        dialect: org.hibernate.dialect.SQLServerDialect
+        dialect: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: update
 """
