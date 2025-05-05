@@ -1,0 +1,23 @@
+version: "1"
+
+services:
+  db:
+    image: postgres:latest
+    environment:
+      - POSTGRES_USER=myuser
+      - POSTGRES_PASSWORD=mypassword
+      - POSTGRES_DB=mydb
+  backend:
+    image: ghcr.io/arkanthara/website_display:backend
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/mydb
+    depends_on:
+      - db
+    ports:
+      - 8080:8080
+  frontend:
+    image: ghcr.io/arkanthara/website_display:frontend
+    depends_on:
+      - backend
+    ports:
+      - 3000:3000
