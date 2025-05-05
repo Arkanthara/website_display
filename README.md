@@ -414,11 +414,6 @@ jobs:
           restore-keys: ${{ runner.os }}-sonar
       - name: Analyze
         env:
-          DB_HOST: ${{ secrets.DB_HOST }}
-          DB_NAME: ${{ secrets.DB_NAME }}
-          DB_USER: ${{ secrets.DB_USER }}
-          DB_PWD: ${{ secrets.DB_PWD }}
-          DB_DRIVER: ${{ secrets.DB_DRIVER }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_BACKEND }}
         run: ./gradlew jacocoTestReport sonar --info
   publish:
