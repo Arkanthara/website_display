@@ -19,8 +19,17 @@ jobs:
           java-version: 21
           distribution: temurin # Alternative distribution options are available
           cache: gradle
+      - name: Set up cache gradle verification-metadata.xml
+        uses: actions/cache@v4
+        with:
+          path: ./gradle/verification-metadata.xml
+          key: ${{ runner.os }}-verification-metadata-${{ hashFIles('**/verification-metadata.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-verification-metadata-${{ hashFIles('**/verification-metadata.xml') }}
+            ${{ runner.os }}-verification-metadata-
+            ${{ runner.os }}-
       - name: Check dependencies
-        run: gradle --write-verification-metadata sha256 help --refresh-keys
+        run: gradle --write-verification-metadata sha256 --refresh-keys
       - name: Build
         run: gradle build
   sonar:
@@ -37,6 +46,15 @@ jobs:
           java-version: 21
           distribution: temurin # Alternative distribution options are available
           cache: gradle
+      - name: Set up cache gradle verification-metadata.xml
+        uses: actions/cache@v4
+        with:
+          path: ./gradle/verification-metadata.xml
+          key: ${{ runner.os }}-verification-metadata-${{ hashFIles('**/verification-metadata.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-verification-metadata-${{ hashFIles('**/verification-metadata.xml') }}
+            ${{ runner.os }}-verification-metadata-
+            ${{ runner.os }}-
       - name: Cache SonarQube packages
         uses: actions/cache@v4
         with:
