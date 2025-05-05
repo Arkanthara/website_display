@@ -391,12 +391,6 @@ jobs:
       - name: Check dependencies
         run: ./gradlew --write-verification-metadata sha256 help --refresh-keys
       - name: Build
-        env:
-          DB_HOST: ${{ secrets.DB_HOST }}
-          DB_NAME: ${{ secrets.DB_NAME }}
-          DB_USER: ${{ secrets.DB_USER }}
-          DB_PWD: ${{ secrets.DB_PWD }}
-          DB_DRIVER: ${{ secrets.DB_DRIVER }}
         run: ./gradlew build
   sonar:
     name: SonarCloud analysis
