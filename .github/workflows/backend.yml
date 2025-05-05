@@ -20,9 +20,9 @@ jobs:
           distribution: temurin # Alternative distribution options are available
           cache: gradle
       - name: Check dependencies
-        run: ./gradlew --write-verification-metadata sha256 help --refresh-keys
+        run: gradle --write-verification-metadata sha256 help --refresh-keys
       - name: Build
-        run: ./gradlew build
+        run: gradle build
   sonar:
     name: SonarCloud analysis
     needs: build
@@ -46,7 +46,7 @@ jobs:
       - name: Analyze
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_BACKEND }}
-        run: ./gradlew jacocoTestReport sonar --info
+        run: gradle jacocoTestReport sonar --info
   publish:
     name: Publish backend
     needs: sonar
@@ -63,7 +63,7 @@ jobs:
           cache: gradle
       - name: publish image
         run: |
-          ./gradlew jib \
+          gradle jib \
           -Djib.to.image="ghcr.io/$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]'):${{ github.ref_name }}" \
           -Djib.to.auth.username=${{ github.actor }} \
           -Djib.to.auth.password=${{ github.token }} \
