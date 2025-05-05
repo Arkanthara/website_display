@@ -13,11 +13,13 @@ The frontend is based on [React-Router](https://reactrouter.com/) using TypeScri
   - [Usage](#b-usage)
   - [Use Case](#b-usecase)
   - [Configuration](#b-config)
+  - [Docker](#b-docker)
   - [Examples](#b-examples)
 - [Frontend](#frontend)
   - [Usage](#f-usage)
   - [Use Case](#f-usecase)
   - [Configuration](#f-config)
+  - [Docker](#f-docker)
   - [Examples](#f-examples)
 
 ## Prerequis
@@ -43,6 +45,36 @@ If you have [docker-compose](https://docs.docker.com/compose/install/) on your m
 ```{sh}
 docker compose up
 ```
+
+with the following `docker-compose.yml` file:
+
+```{yaml}
+version: "1"
+
+services:
+  db:
+    image: postgres:latest
+    environment:
+      - POSTGRES_USER=myuser
+      - POSTGRES_PASSWORD=mypassword
+      - POSTGRES_DB=mydb
+  backend:
+    image: ghcr.io/arkanthara/website_display:backend
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/mydb
+    depends_on:
+      - db
+    ports:
+      - 8080:8080
+  frontend:
+    image: ghcr.io/arkanthara/website_display:frontend
+    depends_on:
+      - backend
+    ports:
+      - 3000:3000
+```
+
+Ensure that the image names match with your own image names.
 
 ## Backend
 
@@ -247,6 +279,16 @@ jobs:
           -Djib.to.auth.password=${{ github.token }} \
 ```
 
+<a name="b-docker"></a>
+
+### Docker
+
+To build a docker image, simply run the following command:
+
+```{sh}
+gradle jibDockerBuild -Djib.to.image='mybackend/myimage:mytag'
+```
+
 <a name="b-examples"></a>
 
 ### Examples
@@ -442,6 +484,16 @@ jobs:
           context: .
           push: true
           tags: ${{ env.IMAGE_NAME }}
+```
+
+<a name="f-docker"></a>
+
+### Docker
+
+To build a docker image, simply run the following command:
+
+```{sh}
+docker build -t 'myfrontend/myimage:mytag' .
 ```
 
 <a name="f-examples"></a>
