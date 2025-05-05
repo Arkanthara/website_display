@@ -38,6 +38,12 @@ The `map` parameter required allow to easily define types for java, or for react
 
 Example: `{"int": "Integer", "str": "String", "datetime": "LocalDateTime"}` for springboot
 
+If you have [docker-compose](https://docs.docker.com/compose/install/) on your machine, you can launch backend and frontend by executing:
+
+```{sh}
+docker compose up
+```
+
 ## Backend
 
 This is the part of the application that is used to interact with the database. For more details, [see](#b-usecase).
